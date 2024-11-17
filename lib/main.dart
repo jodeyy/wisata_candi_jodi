@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
           ),
         useMaterial3: true,
       ),
-      home: SearchScreen(),
+      home: const MainScreen(),
     );
   }
 }
