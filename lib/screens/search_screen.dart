@@ -11,7 +11,7 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   // TODO: 1. Deklarasikan variabel yang dibutuhkan
-  List<Candi> _filteredCandis = [];
+  List<Candi> _filteredCandis = candiList;
   String _searchQuery = '';
   final TextEditingController _searchController = TextEditingController();
 
@@ -63,8 +63,8 @@ class _SearchScreenState extends State<SearchScreen> {
                         width: 100,
                         height: 100,
                         child: ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
                           child: Image.asset(candi.imageAsset, fit: BoxFit.cover),
+                          borderRadius: BorderRadius.circular(10),
                         ),
                       ),
                       Padding(
