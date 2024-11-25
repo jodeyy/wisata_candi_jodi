@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -17,24 +18,35 @@ class _SignUpScreenState extends State<SignUpScreen> {
   bool _obscurePassword = true;
 
   //TODO: 1. Membuat fungsi _signUp
-  void _signUp() {
+  void _signUp() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
     String name = _nameController.text.trim();
     String username = _usernameController.text.trim();
     String password = _passwordController.text.trim();
-    if(password.length < 8 ||
-        !password.contains(RegExp(r'[A-Z]'))||
-        !password.contains(RegExp(r'[a-z]'))||
-        !password.contains(RegExp(r'[0-9]'))||
-        !password.contains(RegExp(r'[!@#\\\$%^&*(),.?":{}|<>]'))){
+    if (password.length < 8 ||
+        !password.contains(RegExp(r'[A-Z]')) ||
+        !password.contains(RegExp(r'[a-z]')) ||
+        !password.contains(RegExp(r'[0-9]')) ||
+        !password.contains(RegExp(r'[!@#\\\$%^&*(),.?":{}|<>]'))) {
       setState(() {
-        _errorText = 'Minimal 8 karakter, kombinasi [A-Z], [a-z], [0-9], [!@#\\\$%^&*(),.?":{}|<>]';
+        _errorText =
+        'Minimal 8 karakter, kombinasi [A-Z], [a-z], [0-9], [!@#\\\$%^&*(),.?":{}|<>]';
       });
+      return;
     }
-    print('*** Sign Up berhasil!');
-    print('Nama: $name');
-    print('Nama Pengguna: $username');
-    print('Password: $password');
+    // simpan data pengguna di SharedPreferences
+    prefs.setString('fullname', name);
+    prefs.setString('username', username);
+    prefs.setString('password', password);
+
+    // niat mavogaso le SignInScreen
+    Navigator.pushReplacementNamed(context, '/signin');
   }
+  //   print('*** Sign Up berhasil!');
+  //   print('Nama: $name');
+  //   print('Nama Pengguna: $username');
+  //   print('Password: $password');
+  // }
   //TODO: 2. Membuat fungsi dispose
   @override
   void dispose(){
