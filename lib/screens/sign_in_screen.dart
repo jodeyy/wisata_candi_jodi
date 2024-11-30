@@ -29,32 +29,39 @@ class _SignInScreenState extends State<SignInScreen> {
 
     if (enteredUsername.isEmpty || enteredPassword.isEmpty) {
       setState(() {
-        _errorText =
-            'pengguna belum terdaftar. silahkan daftar terlebih dahulu.';
+        _errorText = 'Nama pengguna dan kata sandi harus diisi.';
       });
+      return;
+    }
 
-      if (enteredUsername == savedUsername && enteredPassword == savedPassword){
-        setState(() {
-          _errorText = '';
-          _isSignedIn = true;
-          prefs.setBool('isSignedIn', true);
+    if (savedUsername.isEmpty || savedPassword.isEmpty) {
+      setState(() {
+        _errorText =
+        'Pengguna belum terdaftar. Silahkan daftar terlebih dahulu.';
+      });
+      return;
+    }
 
-        });
-        // Pemanggilan untuk menghapus semua halaman dalam tumpukan navigasi
-        WidgetsBinding.instance.addPostFrameCallback(_){
-          Navigator.of(context).popUntil((route) => route.isFirst);
-        });
-        // Sign in berhasil, navigasikan ke layar utama
-        WidgetsBinding.instance.addPostFrameCallback(_){
-          Navigator.pushReplacementNamed(context, '/');
-        });
-      } else {
-        setState(() {
-          _errorText = 'Nama pengguna atau kata sandi salah.';
-        });
+    if (enteredUsername == savedUsername && enteredPassword == savedPassword) {
+      setState(() {
+        _errorText = '';
+        _isSignedIn = true;
+        prefs.setBool('isSignedIn', true);
+      });
+      //Pemanggilan untuk menghapus semua halaman dalam tumpukan navigasi
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Navigator.of(context).popUntil((route) => route.isFirst);
+      });
+      //Sign In berhasil, navigasikan ke layar utama
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Navigator.pushReplacementNamed(context, '/');
+      });
+    } else {
+      setState(() {
+        _errorText = 'Nama pengguna atau kata sandi salah.';
+      });
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
